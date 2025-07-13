@@ -46,7 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
     final chatId = _getChatId();
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.receiverName)),
+      appBar: AppBar(
+        title: Text(widget.receiverName),
+        backgroundColor: const Color(0xFF2874F0),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -77,10 +80,13 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: isMe ? Colors.blue[100] : Colors.grey[200],
+                            color: isMe ? const Color(0xFF2874F0) : Colors.grey[200],
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Text(message['text']),
+                          child: Text(
+                            message['text'],
+                            style: TextStyle(color: isMe ? Colors.white : Colors.black),
+                          ),
                         ),
                       ),
                       subtitle: Text(
@@ -101,11 +107,14 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: const InputDecoration(hintText: 'Type a message'),
+                    decoration: const InputDecoration(
+                      hintText: 'Type a message',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.send),
+                  icon: const Icon(Icons.send, color: Color(0xFF2874F0)),
                   onPressed: _sendMessage,
                 ),
               ],

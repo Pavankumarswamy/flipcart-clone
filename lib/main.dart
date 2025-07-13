@@ -6,18 +6,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp(
     options: FirebaseOptions(
-     
-
-#firebase options
-#firebase options
-#firebase options
-#firebase options
-#firebase options
-#firebase options
-
-
-
-
+      //firebase options
     ),
   );
   print("Firebase initialized successfully");
@@ -30,8 +19,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Instagram Clone',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+      title: 'Flipkart Clone',
+      theme: ThemeData(
+        primaryColor: const Color(0xFF2874F0), // Flipkart blue
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF2874F0),
+          foregroundColor: Colors.white,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFFD700), // Flipkart yellow
+            foregroundColor: Colors.black,
+          ),
+        ),
+        useMaterial3: true,
+      ),
       home: const SplashScreen(),
     );
   }

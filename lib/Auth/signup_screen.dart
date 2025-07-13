@@ -51,20 +51,35 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
+                  border: OutlineInputBorder(),
+                ),
               ),
+              const SizedBox(height: 16),
               TextField(
                 controller: _profileUrlController,
-                decoration: const InputDecoration(labelText: 'Profile Image URL'),
+                decoration: const InputDecoration(
+                  labelText: 'Profile Image URL (optional)',
+                  border: OutlineInputBorder(),
+                ),
               ),
+              const SizedBox(height: 16),
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(
+                  labelText: 'Email or Phone',
+                  border: OutlineInputBorder(),
+                ),
                 keyboardType: TextInputType.emailAddress,
               ),
+              const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
                 obscureText: true,
               ),
               if (_errorMessage != null)
@@ -72,9 +87,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
                 ),
-              ElevatedButton(
-                onPressed: _signup,
-                child: const Text('Sign Up'),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _signup,
+                  child: const Text('Sign Up'),
+                ),
               ),
             ],
           ),

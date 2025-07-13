@@ -13,7 +13,10 @@ class InboxPage extends StatelessWidget {
     final currentUser = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Inbox')),
+      appBar: AppBar(
+        title: const Text('Messages'),
+        backgroundColor: const Color(0xFF2874F0),
+      ),
       body: StreamBuilder(
         stream: database.child('chats').onValue,
         builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
@@ -25,34 +28,24 @@ class InboxPage extends StatelessWidget {
           }
 
           final chats = Map<dynamic, dynamic>.from(
-            snapshot.data!.snapshot.value as Map<dynamic, dynamic>,
-          );
-          // Filter conversations involving the current user
+              snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
           final conversationUsers = <String, Map<String, dynamic>>{};
           for (var chatEntry in chats.entries) {
             final chatId = chatEntry.key;
             final messages = Map<dynamic, dynamic>.from(chatEntry.value);
-            final latestMessage =
-                messages.entries
-                    .map(
-                      (e) => {
-                        'id': e.key,
-                        ...Map<String, dynamic>.from(e.value),
-                      },
-                    )
-                    .toList()
-                  ..sort(
-                    (a, b) => (b['timestamp'] as int).compareTo(
-                      a['timestamp'] as int,
-                    ),
-                  );
+            final latestMessage = messages.entries
+                .map((e) => {
+                      'id': e.key,
+                      ...Map<String, dynamic>.from(e.value),
+                    })
+                .toList()
+              ..sort((a, b) => (b['timestamp'] as int).compareTo(a['timestamp'] as int));
 
             if (latestMessage.isNotEmpty) {
               final message = latestMessage.first;
-              final otherUserId =
-                  message['senderId'] == currentUser.uid
-                      ? message['receiverId']
-                      : message['senderId'];
+              final otherUserId = message['senderId'] == currentUser.uid
+                  ? message['receiverId']
+                  : message['senderId'];
               if (!conversationUsers.containsKey(otherUserId)) {
                 conversationUsers[otherUserId] = {
                   'chatId': chatId,
@@ -77,29 +70,23 @@ class InboxPage extends StatelessWidget {
                     .child('users')
                     .child(otherUserId)
                     .get()
-                    .then(
-                      (snapshot) => snapshot.value as Map<dynamic, dynamic>?,
-                    ),
-                builder: (
-                  context,
-                  AsyncSnapshot<Map<dynamic, dynamic>?> userSnapshot,
-                ) {
+                    .then((snapshot) => snapshot.value as Map<dynamic, dynamic>?),
+                builder: (context, AsyncSnapshot<Map<dynamic, dynamic>?> userSnapshot) {
                   if (!userSnapshot.hasData || userSnapshot.data == null) {
                     return const ListTile(title: Text('Loading...'));
                   }
                   final user = userSnapshot.data!;
-                  final userName = user['name'] ?? 'Unknown';
+                  final userName = user['name'] ?? 'Seller';
                   final profileUrl = user['profileUrl'] ?? '';
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder:
-                              (context) => ChatScreen(
-                                receiverId: otherUserId,
-                                receiverName: userName,
-                              ),
+                          builder: (context) => ChatScreen(
+                            receiverId: otherUserId,
+                            receiverName: userName,
+                          ),
                         ),
                       );
                     },
@@ -116,10 +103,7 @@ class InboxPage extends StatelessWidget {
                       ),
                       trailing: Text(
                         _formatTimestamp(conversation['timestamp']),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ),
                   );
@@ -135,9 +119,7 @@ class InboxPage extends StatelessWidget {
   String _formatTimestamp(int timestamp) {
     final date = DateTime.fromMillisecondsSinceEpoch(timestamp);
     final now = DateTime.now();
-    if (date.day == now.day &&
-        date.month == now.month &&
-        date.year == now.year) {
+    if (date.day == now.day && date.month == now.month && date.year == now.year) {
       return '${date.hour}:${date.minute.toString().padLeft(2, '0')}';
     }
     return '${date.day}/${date.month}';

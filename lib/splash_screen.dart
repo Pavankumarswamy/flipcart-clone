@@ -25,19 +25,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF2874F0), // Flipkart blue
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.camera_alt, size: 100, color: Colors.black),
+            Icon(Icons.shopping_bag, size: 100, color: Colors.white),
             SizedBox(height: 20),
             Text(
-              'Instagram Clone',
+              'Flipkart',
               style: TextStyle(
-                fontSize: 24,
-                color: Colors.black,
+                fontSize: 28,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
               ),
             ),
           ],
